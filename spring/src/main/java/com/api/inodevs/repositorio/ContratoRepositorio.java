@@ -17,12 +17,18 @@ public interface ContratoRepositorio extends JpaRepository<Contrato, Long>{
     		+ "OR c.status LIKE %?1%")
     public List<Contrato> pesquisarContrato(String palavraChave);
     
-    @Query("SELECT c.codigo FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Água'")
-    public Long contratoAgua(Long cnpj);
+    @Query("SELECT c FROM Contrato c WHERE c.unidade.nome LIKE %?1% "
+    		+ "OR c.concessionaria.nome LIKE %?1% "
+    		+ "OR c.codigo LIKE %?1%")
+    public List<Contrato> pesquisarRelatorio(String palavraChave);
     
-    @Query("SELECT c.codigo FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Gás'")
-    public Long contratoGas(Long cnpj);
+    @Query("SELECT c FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Água'")
+    public Contrato contratoAgua(Long cnpj);
+    
+    @Query("SELECT c FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Gás'")
+    public Contrato contratoGas(Long cnpj);
 
-    @Query("SELECT c.codigo FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Energia'")
-    public Long contratoEnergia(Long cnpj);
+    @Query("SELECT c FROM Contrato c WHERE c.unidade.cnpj = ?1 AND c.concessionaria.tipo_conta = 'Energia'")
+    public Contrato contratoEnergia(Long cnpj);
+    
 }
